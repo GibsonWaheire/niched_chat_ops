@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { MessageSquare, Menu, User, LogOut } from "lucide-react";
+import { MessageSquare, Menu, User, LogOut, ChevronDown } from "lucide-react";
 import { SignInModal } from "./auth/SignInModal";
 import { SignUpModal } from "./auth/SignUpModal";
 import { ForgotPasswordModal } from "./auth/ForgotPasswordModal";
@@ -46,11 +46,16 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setActiveSection(sectionId);
+  const scrollToSection = (href: string) => {
+    if (href.startsWith('#')) {
+      // Handle hash links for sections on the same page
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Handle navigation to different pages
+      window.location.href = href;
     }
   };
 
@@ -105,11 +110,30 @@ export function Header() {
     );
   }
 
-  const navItems = [
-    { id: 'features', label: 'Features', href: '#features' },
-    { id: 'templates', label: 'Templates', href: '#templates' },
-    { id: 'pricing', label: 'Pricing', href: '#pricing' },
-    { id: 'support', label: 'Support', href: '#support' },
+  const navigationItems = [
+    { name: "Features", href: "#features" },
+    { name: "Templates", href: "#templates" },
+    { name: "Pricing", href: "#pricing" },
+    { 
+      name: "Resources", 
+      href: null,
+      subItems: [
+        { name: "API", href: "/api" },
+        { name: "Integrations", href: "/integrations" },
+        { name: "Documentation", href: "/docs" },
+        { name: "Help Center", href: "/help" }
+      ]
+    },
+    { 
+      name: "Company", 
+      href: null,
+      subItems: [
+        { name: "About Us", href: "/about" },
+        { name: "Blog", href: "/blog" },
+        { name: "Careers", href: "/careers" },
+        { name: "Partners", href: "/partners" }
+      ]
+    }
   ];
 
   return (
@@ -132,21 +156,48 @@ export function Header() {
           {/* Navigation */}
           <nav className="hidden lg:flex items-center">
             <div className="flex items-center space-x-1 bg-gray-100/80 rounded-xl p-1 backdrop-blur-sm">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    activeSection === item.id
-                      ? 'text-indigo-700 bg-white shadow-sm border border-indigo-200'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
-                  }`}
-                >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-indigo-600 rounded-full"></div>
+              {navigationItems.map((item) => (
+                <div key={item.name} className="relative group">
+                  {item.href ? (
+                    <button
+                      onClick={() => scrollToSection(item.href!)}
+                      className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                        activeSection === item.href
+                          ? 'text-indigo-700 bg-white shadow-sm border border-indigo-200'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                      }`}
+                    >
+                      {item.name}
+                      {activeSection === item.href && (
+                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-indigo-600 rounded-full"></div>
+                      )}
+                    </button>
+                  ) : (
+                    <button
+                      className="relative px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-white/60 transition-all duration-300 flex items-center gap-1"
+                    >
+                      {item.name}
+                      <ChevronDown className="w-3 h-3" />
+                    </button>
                   )}
-                </button>
+                  
+                  {/* Dropdown Menu */}
+                  {item.subItems && (
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                      <div className="py-2">
+                        {item.subItems.map((subItem) => (
+                          <button
+                            key={subItem.name}
+                            onClick={() => scrollToSection(subItem.href)}
+                            className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-colors duration-200"
+                          >
+                            {subItem.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </nav>
@@ -198,18 +249,40 @@ export function Header() {
         <div className="lg:hidden border-t border-gray-200 bg-white/95 backdrop-blur-lg">
           <div className="max-w-7xl mx-auto px-4 py-4">
             <div className="grid grid-cols-2 gap-2">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium text-center transition-all duration-300 ${
-                    activeSection === item.id
-                      ? 'text-indigo-700 bg-indigo-50 border border-indigo-200'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
-                >
-                  {item.label}
-                </button>
+              {navigationItems.map((item) => (
+                <div key={item.name}>
+                  {item.href ? (
+                    <button
+                      onClick={() => scrollToSection(item.href!)}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium text-center transition-all duration-300 ${
+                        activeSection === item.href
+                          ? 'text-indigo-700 bg-indigo-50 border border-indigo-200'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      }`}
+                    >
+                      {item.name}
+                    </button>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="px-4 py-2 text-sm font-medium text-gray-900 text-center">
+                        {item.name}
+                      </div>
+                      {item.subItems && (
+                        <div className="space-y-1">
+                          {item.subItems.map((subItem) => (
+                            <button
+                              key={subItem.name}
+                              onClick={() => scrollToSection(subItem.href)}
+                              className="w-full px-4 py-2 text-sm text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors duration-200 text-left"
+                            >
+                              {subItem.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>

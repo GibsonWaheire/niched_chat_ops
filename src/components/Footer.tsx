@@ -21,34 +21,43 @@ export function Footer() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleLinkClick = (href: string) => {
+    if (href.startsWith('#')) {
+      // Handle hash links for sections on the same page
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Handle navigation to different pages
+      window.location.href = href;
+    }
+  };
+
   const footerLinks = {
     product: [
       { name: 'Features', href: '#features' },
       { name: 'Templates', href: '#templates' },
       { name: 'Pricing', href: '#pricing' },
-      { name: 'API', href: '#api' },
-      { name: 'Integrations', href: '#integrations' }
+      { name: 'Support', href: '#support' }
+    ],
+    resources: [
+      { name: 'API', href: '/api' },
+      { name: 'Integrations', href: '/integrations' },
+      { name: 'Documentation', href: '/docs' },
+      { name: 'Help Center', href: '/help' }
     ],
     company: [
-      { name: 'About Us', href: '#about' },
-      { name: 'Careers', href: '#careers' },
-      { name: 'Blog', href: '#blog' },
-      { name: 'Press', href: '#press' },
-      { name: 'Partners', href: '#partners' }
-    ],
-    support: [
-      { name: 'Help Center', href: '#help-center' },
-      { name: 'Live Chat', href: '#support' },
-      { name: 'Contact Sales', href: '#support' },
-      { name: 'Status Page', href: '#status' },
-      { name: 'Documentation', href: '#docs' }
+      { name: 'About Us', href: '/about' },
+      { name: 'Blog', href: '/blog' },
+      { name: 'Careers', href: '/careers' },
+      { name: 'Partners', href: '/partners' }
     ],
     legal: [
-      { name: 'Privacy Policy', href: '#privacy' },
-      { name: 'Terms of Service', href: '#terms' },
-      { name: 'Cookie Policy', href: '#cookies' },
-      { name: 'GDPR', href: '#gdpr' },
-      { name: 'Security', href: '#security' }
+      { name: 'Privacy Policy', href: '/privacy' },
+      { name: 'Terms of Service', href: '/terms' },
+      { name: 'Cookie Policy', href: '/cookies' },
+      { name: 'Security', href: '/security' }
     ]
   };
 
@@ -104,12 +113,28 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href} 
-                    className="text-gray-300 hover:text-white transition-colors duration-200"
+                  <button
+                    onClick={() => handleLinkClick(link.href)}
+                    className="text-gray-600 hover:text-indigo-600 transition-colors duration-200"
                   >
                     {link.name}
-                  </a>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-white mb-4">Resources</h3>
+            <ul className="space-y-2">
+              {footerLinks.resources.map((link) => (
+                <li key={link.name}>
+                  <button
+                    onClick={() => handleLinkClick(link.href)}
+                    className="text-gray-600 hover:text-indigo-600 transition-colors duration-200"
+                  >
+                    {link.name}
+                  </button>
                 </li>
               ))}
             </ul>
@@ -120,28 +145,12 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href} 
-                    className="text-gray-300 hover:text-white transition-colors duration-200"
+                  <button
+                    onClick={() => handleLinkClick(link.href)}
+                    className="text-gray-600 hover:text-indigo-600 transition-colors duration-200"
                   >
                     {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-white mb-4">Support</h3>
-            <ul className="space-y-2">
-              {footerLinks.support.map((link) => (
-                <li key={link.name}>
-                  <a 
-                    href={link.href} 
-                    className="text-gray-300 hover:text-white transition-colors duration-200"
-                  >
-                    {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -152,12 +161,12 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href} 
-                    className="text-gray-300 hover:text-white transition-colors duration-200"
+                  <button
+                    onClick={() => handleLinkClick(link.href)}
+                    className="text-gray-600 hover:text-indigo-600 transition-colors duration-200"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
