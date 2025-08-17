@@ -126,9 +126,23 @@ export default function PricingSection() {
     return savings > 0 ? `Save $${savings}/year` : null;
   };
 
-  const handlePlanSelect = (plan: typeof plans[0]) => {
+  const handlePlanSelect = async (plan: typeof plans[0]) => {
     setSelectedPlan(plan);
-    setIsSignUpOpen(true);
+    
+    // Check if user is already authenticated
+    try {
+      const currentUser = await AuthService.getCurrentUser();
+      if (currentUser) {
+        // User is logged in, go directly to payment
+        setIsPaymentModalOpen(true);
+      } else {
+        // User is not logged in, show sign up modal
+        setIsSignUpOpen(true);
+      }
+    } catch {
+      // User is not authenticated, show sign up modal
+      setIsSignUpOpen(true);
+    }
   };
 
   const handleClosePaymentModal = () => {
