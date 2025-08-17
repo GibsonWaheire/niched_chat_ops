@@ -125,7 +125,7 @@ export function HeroSection() {
                 className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105"
                 onClick={() => setIsSignUpOpen(true)}
               >
-                Get Started Free
+                Start 7-Day Trial
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               <Button 
@@ -146,7 +146,7 @@ export function HeroSection() {
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span>20 free automations/month</span>
+                <span>20 automations/month</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>

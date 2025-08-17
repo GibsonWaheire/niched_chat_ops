@@ -182,7 +182,7 @@ export function Header() {
                   className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                   onClick={() => setIsSignUpOpen(true)}
                 >
-                  Start Free Trial
+                  Start 7-Day Trial
                 </Button>
               </>
             )}
