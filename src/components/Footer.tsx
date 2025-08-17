@@ -23,10 +23,16 @@ export function Footer() {
 
   const handleLinkClick = (href: string) => {
     if (href.startsWith('#')) {
-      // Handle hash links for sections on the same page
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+      // For hash links (Features, Templates, Pricing, Support), always go to home page first
+      if (window.location.pathname === '/' || window.location.pathname === '') {
+        // If already on home page, scroll to section
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        // If not on home page, navigate to home page with hash
+        window.location.href = `/${href}`;
       }
     } else {
       // Handle navigation to different pages
@@ -49,9 +55,7 @@ export function Footer() {
     ],
     company: [
       { name: 'About Us', href: '/about' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Partners', href: '/partners' }
+      { name: 'Blog', href: '/blog' }
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
