@@ -1,5 +1,6 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
 import FeatureSection from "./components/FeatureSection";
@@ -18,9 +19,45 @@ import { TermsOfServicePage } from "./components/pages/TermsOfServicePage";
 import { CookiePolicyPage } from "./components/pages/CookiePolicyPage";
 import { SecurityPage } from "./components/pages/SecurityPage";
 
+// Component to handle hash navigation and scroll to sections
+const HashScrollHandler = () => {
+  useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        // Remove the # from the hash
+        const sectionId = hash.substring(1);
+        const element = document.getElementById(sectionId);
+        if (element) {
+          // Add a small delay to ensure the page is fully loaded and rendered
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Update the URL to remove the hash after scrolling
+            window.history.replaceState(null, '', window.location.pathname);
+          }, 300);
+        }
+      }
+    };
+
+    // Handle hash on initial load
+    handleHashScroll();
+
+    // Handle hash changes
+    const handleHashChange = () => {
+      handleHashScroll();
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  return null;
+};
+
 // Landing page component
 const LandingPage = () => (
   <>
+    <HashScrollHandler />
     <HeroSection />
     <FeatureSection />
     <NicheSection />
