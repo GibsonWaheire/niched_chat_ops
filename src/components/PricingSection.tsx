@@ -4,6 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Badge } from "./ui/badge";
 import { Check, Zap, Crown, Star, ArrowRight, Shield, Clock, Users, MessageSquare, BarChart3 } from "lucide-react";
 import { PaymentModal } from "./ui/payment-modal";
+import { SignUpModal } from "./auth/SignUpModal";
+import { SignInModal } from "./auth/SignInModal";
+import { AuthService } from "../lib/auth";
 
 const plans = [
   {
@@ -103,6 +106,8 @@ export default function PricingSection() {
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
 
   const getCurrentPrice = (plan: typeof plans[0]) => {
     return isYearly ? plan.price.yearly : plan.price.monthly;
@@ -123,12 +128,62 @@ export default function PricingSection() {
 
   const handlePlanSelect = (plan: typeof plans[0]) => {
     setSelectedPlan(plan);
-    setIsPaymentModalOpen(true);
+    setIsSignUpOpen(true);
   };
 
   const handleClosePaymentModal = () => {
     setIsPaymentModalOpen(false);
     setSelectedPlan(null);
+  };
+
+  const handleSignUp = async (email: string, password: string, fullName: string) => {
+    try {
+      await AuthService.signUp(email, password, fullName);
+      setIsSignUpOpen(false);
+      // After successful sign up, open payment modal
+      setIsPaymentModalOpen(true);
+    } catch (error) {
+      console.error('Sign up failed:', error);
+      throw error;
+    }
+  };
+
+  const handleSignIn = async (email: string, password: string) => {
+    try {
+      await AuthService.signIn(email, password);
+      setIsSignInOpen(false);
+      // After successful sign in, open payment modal
+      setIsPaymentModalOpen(true);
+    } catch (error) {
+      console.error('Sign in failed:', error);
+      throw error;
+    }
+  };
+
+  const handleCloseSignUp = () => {
+    setIsSignUpOpen(false);
+    setSelectedPlan(null);
+  };
+
+  const handleCloseSignIn = () => {
+    setIsSignInOpen(false);
+    setSelectedPlan(null);
+  };
+
+  const openSignUp = () => {
+    setIsSignInOpen(false);
+    setIsSignUpOpen(true);
+  };
+
+  const openSignIn = () => {
+    setIsSignUpOpen(false);
+    setIsSignInOpen(true);
+  };
+
+  const handleForgotPassword = () => {
+    // For now, just close the sign in modal
+    // In a real app, you might want to show a message or redirect
+    setIsSignInOpen(false);
   };
 
   return (
@@ -388,6 +443,23 @@ export default function PricingSection() {
           onClose={handleClosePaymentModal} 
           plan={selectedPlan} 
           isYearly={isYearly}
+        />
+      )}
+      {isSignUpOpen && (
+        <SignUpModal 
+          isOpen={isSignUpOpen} 
+          onClose={handleCloseSignUp} 
+          onSwitchToSignIn={openSignIn}
+          onSignUp={handleSignUp}
+        />
+      )}
+      {isSignInOpen && (
+        <SignInModal 
+          isOpen={isSignInOpen} 
+          onClose={handleCloseSignIn} 
+          onSwitchToSignUp={openSignUp}
+          onForgotPassword={handleForgotPassword}
+          onSignIn={handleSignIn}
         />
       )}
     </section>
