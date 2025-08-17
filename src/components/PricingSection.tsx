@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Button } from "./ui/button";  
+import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Check, Zap, Crown, Star, ArrowRight, Shield, Clock, Users, MessageSquare, BarChart3 } from "lucide-react";
+import { PaymentModal } from "./ui/payment-modal";
 
 const plans = [
   {
@@ -100,6 +101,8 @@ const featureCategories = [
 export default function PricingSection() {
   const [isYearly, setIsYearly] = useState(false);
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const getCurrentPrice = (plan: typeof plans[0]) => {
     return isYearly ? plan.price.yearly : plan.price.monthly;
@@ -116,6 +119,16 @@ export default function PricingSection() {
     const yearlyTotal = plan.price.yearly;
     const savings = monthlyTotal - yearlyTotal;
     return savings > 0 ? `Save $${savings}/year` : null;
+  };
+
+  const handlePlanSelect = (plan: typeof plans[0]) => {
+    setSelectedPlan(plan);
+    setIsPaymentModalOpen(true);
+  };
+
+  const handleClosePaymentModal = () => {
+    setIsPaymentModalOpen(false);
+    setSelectedPlan(null);
   };
 
   return (
@@ -250,6 +263,7 @@ export default function PricingSection() {
                         : 'bg-gray-900 hover:bg-gray-800'
                     }`}
                     size="lg"
+                    onClick={() => handlePlanSelect(plan)}
                   >
                     {plan.cta}
                     <ArrowRight className="w-5 h-5 ml-2" />
@@ -350,6 +364,7 @@ export default function PricingSection() {
                 size="lg" 
                 variant="secondary" 
                 className="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
+                onClick={() => handlePlanSelect(plans[0])}
               >
                 Start Free Trial
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -358,6 +373,7 @@ export default function PricingSection() {
                 size="lg" 
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-indigo-600 px-8 py-3 text-lg font-semibold"
+                onClick={() => handlePlanSelect(plans[1])}
               >
                 Schedule Demo
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -366,6 +382,14 @@ export default function PricingSection() {
           </div>
         </div>
       </div>
+      {selectedPlan && (
+        <PaymentModal 
+          isOpen={isPaymentModalOpen} 
+          onClose={handleClosePaymentModal} 
+          plan={selectedPlan} 
+          isYearly={isYearly}
+        />
+      )}
     </section>
   );
 }
