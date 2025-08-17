@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { ArrowLeft, Building2, Users, MessageSquare, CheckCircle, Star } from "lucide-react";
+import { ArrowLeft, Building2, Users, MessageSquare, CheckCircle, Star, Play, Clock, Zap, TrendingUp, Calendar, FileText, Smartphone, Mail } from "lucide-react";
 import { TemplateService } from "../lib/templateService";
 
 interface TemplateRequest {
@@ -16,6 +16,14 @@ interface TemplateRequest {
   automationNeeds: string[];
   timeline: string;
   additionalInfo: string;
+}
+
+interface DemoMessage {
+  id: string;
+  type: 'user' | 'bot';
+  content: string;
+  timestamp: Date;
+  isTyping?: boolean;
 }
 
 const businessSizes = [
@@ -46,6 +54,65 @@ const timelines = [
   "No specific timeline"
 ];
 
+const templateData = {
+  salon: {
+    name: "Hair Salon & Spa",
+    description: "Appointment automation for beauty services",
+    gradient: "from-pink-500 to-rose-500",
+    features: ["Appointment booking", "SMS reminders", "Receipt generation"],
+    examples: ["Book Sarah for highlights at 2PM tomorrow", "Send reminder to tomorrow's clients", "Generate receipt for Sarah, $85"],
+    demoMessages: [
+      { id: '1', type: 'user', content: "Book Sarah for highlights at 2PM tomorrow", timestamp: new Date() },
+      { id: '2', type: 'bot', content: "✅ Appointment booked! Sarah is scheduled for highlights tomorrow at 2:00 PM. I've sent her a confirmation SMS and added it to your calendar.", timestamp: new Date() },
+      { id: '3', type: 'user', content: "Send reminder to tomorrow's clients", timestamp: new Date() },
+      { id: '4', type: 'bot', content: "🔔 Reminders sent! 12 clients will receive SMS reminders 24 hours before their appointments.", timestamp: new Date() }
+    ],
+    stats: { timeSaved: "8 hours", efficiency: "95%", clients: "150+" }
+  },
+  clinic: {
+    name: "Medical Clinic",
+    description: "Patient management & HIPAA compliance",
+    gradient: "from-blue-500 to-cyan-500",
+    features: ["Patient scheduling", "Follow-up automation", "Intake forms"],
+    examples: ["Schedule John for checkup Friday", "Send post-visit survey to patients", "Remind patients about lab results"],
+    demoMessages: [
+      { id: '1', type: 'user', content: "Schedule John for checkup Friday", timestamp: new Date() },
+      { id: '2', type: 'bot', content: "🏥 Appointment scheduled! John is booked for a checkup this Friday at 10:00 AM. I've sent intake forms and insurance verification requests.", timestamp: new Date() },
+      { id: '3', type: 'user', content: "Send post-visit survey to patients", timestamp: new Date() },
+      { id: '4', type: 'bot', content: "📋 Surveys sent to 8 patients from today's appointments. HIPAA-compliant and ready for responses.", timestamp: new Date() }
+    ],
+    stats: { timeSaved: "12 hours", efficiency: "98%", patients: "200+" }
+  },
+  tutor: {
+    name: "Private Tutor",
+    description: "Lesson management & progress tracking",
+    gradient: "from-green-500 to-emerald-500",
+    features: ["Lesson scheduling", "Progress tracking", "Invoice automation"],
+    examples: ["Schedule Emma for math lesson Tuesday", "Send progress report to parents", "Generate invoice for this month"],
+    demoMessages: [
+      { id: '1', type: 'user', content: "Schedule Emma for math lesson Tuesday", timestamp: new Date() },
+      { id: '2', type: 'bot', content: "📚 Lesson scheduled! Emma is booked for math on Tuesday at 4:00 PM. I've updated her progress tracker and notified her parents.", timestamp: new Date() },
+      { id: '3', type: 'user', content: "Generate invoice for this month", timestamp: new Date() },
+      { id: '4', type: 'bot', content: "💰 Invoice generated! Total: $320 for 8 lessons. Sent to all parents with payment links.", timestamp: new Date() }
+    ],
+    stats: { timeSaved: "6 hours", efficiency: "92%", students: "25+" }
+  },
+  carwash: {
+    name: "Car Wash Service",
+    description: "Booking & loyalty program automation",
+    gradient: "from-purple-500 to-indigo-500",
+    features: ["Booking confirmations", "Loyalty reminders", "Service updates"],
+    examples: ["Book sedan wash for tomorrow 10AM", "Send loyalty discount to regulars", "Confirm all bookings for today"],
+    demoMessages: [
+      { id: '1', type: 'user', content: "Book sedan wash for tomorrow 10AM", timestamp: new Date() },
+      { id: '2', type: 'bot', content: "🚗 Booking confirmed! Sedan wash scheduled for tomorrow at 10:00 AM. Customer will receive SMS confirmation and loyalty points.", timestamp: new Date() },
+      { id: '3', type: 'user', content: "Send loyalty discount to regulars", timestamp: new Date() },
+      { id: '4', type: 'bot', content: "🎁 Loyalty discounts sent! 45 regular customers received 20% off coupons. 12 have already booked appointments.", timestamp: new Date() }
+    ],
+    stats: { timeSaved: "4 hours", efficiency: "90%", customers: "300+" }
+  }
+};
+
 export default function CustomTemplateRequest() {
   const [formData, setFormData] = useState<TemplateRequest>({
     businessName: "",
@@ -63,6 +130,7 @@ export default function CustomTemplateRequest() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
+  const [activeTemplate, setActiveTemplate] = useState<string | null>(null);
   const [error, setError] = useState("");
 
   const handleInputChange = (field: keyof TemplateRequest, value: string) => {
@@ -104,6 +172,7 @@ export default function CustomTemplateRequest() {
   const backToForm = () => {
     setShowTemplates(false);
     setIsSubmitted(false);
+    setActiveTemplate(null);
     setFormData({
       businessName: "",
       industry: "",
@@ -117,6 +186,209 @@ export default function CustomTemplateRequest() {
       additionalInfo: ""
     });
   };
+
+  const openTemplateDemo = (templateKey: string) => {
+    setActiveTemplate(templateKey);
+  };
+
+  const closeTemplateDemo = () => {
+    setActiveTemplate(null);
+  };
+
+  // Show individual template demo
+  if (activeTemplate) {
+    const template = templateData[activeTemplate as keyof typeof templateData];
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <Button 
+              onClick={closeTemplateDemo} 
+              variant="ghost" 
+              className="mb-6 hover:bg-white/50 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back to Templates
+            </Button>
+            
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              {template.name} Demo
+            </h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              See how {template.name} automation works in real-time
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Live Chat Demo */}
+            <div className="space-y-6">
+              <Card className="shadow-xl border-0">
+                <CardHeader className={`bg-gradient-to-r ${template.gradient} text-white rounded-t-lg`}>
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <MessageSquare className="w-6 h-6" />
+                    Live Chat Demo
+                  </CardTitle>
+                  <CardDescription className="text-white/80">
+                    Try these commands to see automation in action
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    {template.demoMessages.map((message) => (
+                      <div
+                        key={message.id}
+                        className={`flex items-start gap-3 ${
+                          message.type === 'user' ? 'flex-row-reverse' : 'flex-row'
+                        }`}
+                      >
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                          message.type === 'user'
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
+                            : 'bg-white border border-gray-200 shadow-sm'
+                        }`}>
+                          {message.type === 'user' ? (
+                            <Users className="w-4 h-4" />
+                          ) : (
+                            <MessageSquare className="w-4 h-4 text-gray-600" />
+                          )}
+                        </div>
+                        <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
+                          message.type === 'user'
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
+                            : 'bg-white border border-gray-200 text-gray-800'
+                        }`}>
+                          <p className="text-sm leading-relaxed">{message.content}</p>
+                          <p className="text-xs opacity-70 mt-1">
+                            {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm text-gray-600 mb-3">Try these commands:</p>
+                    <div className="space-y-2">
+                      {template.examples.map((example, index) => (
+                        <button
+                          key={index}
+                          className="block w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-colors text-sm font-mono text-gray-700"
+                        >
+                          "{example}"
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Workflow & Stats */}
+            <div className="space-y-6">
+              {/* Workflow Visualization */}
+              <Card className="shadow-xl border-0">
+                <CardHeader className="bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-t-lg">
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <Zap className="w-6 h-6" />
+                    Automation Workflow
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-semibold text-blue-600">1</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">User sends command</p>
+                        <p className="text-sm text-gray-600">Natural language request</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-semibold text-green-600">2</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">AI processes request</p>
+                        <p className="text-sm text-gray-600">Understands intent & context</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-semibold text-purple-600">3</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Automation executes</p>
+                        <p className="text-sm text-gray-600">Multiple systems updated</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-semibold text-indigo-600">4</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Confirmation sent</p>
+                        <p className="text-sm text-gray-600">User & stakeholders notified</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Performance Stats */}
+              <Card className="shadow-xl border-0">
+                <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-t-lg">
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <TrendingUp className="w-6 h-6" />
+                    Performance Impact
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                      <div className="text-3xl font-bold text-green-600 mb-2">{template.stats.timeSaved}</div>
+                      <div className="text-sm text-green-700">Time saved per month</div>
+                    </div>
+                    <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="text-3xl font-bold text-blue-600 mb-2">{template.stats.efficiency}</div>
+                      <div className="text-sm text-blue-700">Process efficiency</div>
+                    </div>
+                    <div className="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
+                      <div className="text-3xl font-bold text-purple-600 mb-2">{template.stats.clients}</div>
+                      <div className="text-sm text-purple-700">Customers managed</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* CTA Section */}
+          <div className="text-center mt-12">
+            <p className="text-gray-600 mb-6">
+              Ready to implement this automation for your business?
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                onClick={closeTemplateDemo}
+                variant="outline" 
+                className="px-8 py-3"
+              >
+                Explore Other Templates
+              </Button>
+              <Button 
+                onClick={backToForm}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-3"
+              >
+                Request Custom Template
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Show demo templates view
   if (showTemplates) {
@@ -135,7 +407,7 @@ export default function CustomTemplateRequest() {
             </Button>
             
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Demo Templates
+              Interactive Demo Templates
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Explore our pre-built automation templates and see how they can transform your business workflow.
@@ -143,130 +415,112 @@ export default function CustomTemplateRequest() {
           </div>
 
           {/* Template Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Salon Template */}
-            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
-              <CardHeader className="bg-gradient-to-br from-pink-500 to-rose-500 text-white rounded-t-lg">
-                <CardTitle className="text-lg">Hair Salon & Spa</CardTitle>
-                <CardDescription className="text-pink-100">
-                  Appointment automation for beauty services
-                </CardDescription>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {Object.entries(templateData).map(([key, template]) => (
+              <Card 
+                key={key}
+                className="hover:shadow-xl transition-all duration-300 cursor-pointer group hover:scale-105"
+                onClick={() => openTemplateDemo(key)}
+              >
+                <CardHeader className={`bg-gradient-to-br ${template.gradient} text-white rounded-t-lg`}>
+                  <CardTitle className="text-lg">{template.name}</CardTitle>
+                  <CardDescription className="text-white/80">
+                    {template.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-3">
+                    {template.features.map((feature, index) => (
+                      <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-600 font-medium mb-2">Try this command:</p>
+                    <p className="text-sm text-gray-800 font-mono">{template.examples[0]}</p>
+                  </div>
+                  <div className="mt-4 flex items-center justify-center">
+                    <Button 
+                      size="sm" 
+                      className="bg-white/20 hover:bg-white/30 text-white border border-white/30"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openTemplateDemo(key);
+                      }}
+                    >
+                      <Play className="w-4 h-4 mr-2" />
+                      Try Demo
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Interactive Features Showcase */}
+          <div className="grid lg:grid-cols-3 gap-6 mb-12">
+            <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200">
+              <CardHeader>
+                <CardTitle className="text-yellow-900 flex items-center gap-2">
+                  <Zap className="w-5 h-5" />
+                  Live Chat Interface
+                </CardTitle>
               </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Appointment booking</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>SMS reminders</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Receipt generation</span>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-xs text-gray-600 font-medium">Try this command:</p>
-                  <p className="text-sm text-gray-800 font-mono">"Book Sarah for highlights at 2PM tomorrow"</p>
+              <CardContent>
+                <p className="text-sm text-gray-700 mb-4">
+                  Experience real-time automation through our interactive chat interface
+                </p>
+                <div className="space-y-2 text-xs text-gray-600">
+                  <p>✅ Natural language commands</p>
+                  <p>✅ Instant automation execution</p>
+                  <p>✅ Real-time confirmations</p>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Medical Clinic Template */}
-            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
-              <CardHeader className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white rounded-t-lg">
-                <CardTitle className="text-lg">Medical Clinic</CardTitle>
-                <CardDescription className="text-blue-100">
-                  Patient management & HIPAA compliance
-                </CardDescription>
+            <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+              <CardHeader>
+                <CardTitle className="text-blue-900 flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5" />
+                  Performance Metrics
+                </CardTitle>
               </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Patient scheduling</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Follow-up automation</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Intake forms</span>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-xs text-gray-600 font-medium">Try this command:</p>
-                  <p className="text-sm text-gray-800 font-mono">"Schedule John for checkup Friday"</p>
+              <CardContent>
+                <p className="text-sm text-gray-700 mb-4">
+                  See the real impact of automation on business efficiency
+                </p>
+                <div className="space-y-2 text-xs text-gray-600">
+                  <p>📊 Time savings analysis</p>
+                  <p>📈 Efficiency improvements</p>
+                  <p>💰 Cost reduction data</p>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Tutor Template */}
-            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
-              <CardHeader className="bg-gradient-to-br from-green-500 to-emerald-500 text-white rounded-t-lg">
-                <CardTitle className="text-lg">Private Tutor</CardTitle>
-                <CardDescription className="text-green-100">
-                  Lesson management & progress tracking
-                </CardDescription>
+            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+              <CardHeader>
+                <CardTitle className="text-green-900 flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Workflow Integration
+                </CardTitle>
               </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Lesson scheduling</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Progress tracking</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Invoice automation</span>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-xs text-gray-600 font-medium">Try this command:</p>
-                  <p className="text-sm text-gray-800 font-mono">"Schedule Emma for math lesson Tuesday"</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Car Wash Template */}
-            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
-              <CardHeader className="bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-t-lg">
-                <CardTitle className="text-lg">Car Wash Service</CardTitle>
-                <CardDescription className="text-purple-100">
-                  Booking & loyalty program automation
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Booking confirmations</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Loyalty reminders</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Service updates</span>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-xs text-gray-600 font-medium">Try this command:</p>
-                  <p className="text-sm text-gray-800 font-mono">"Book sedan wash for tomorrow 10AM"</p>
+              <CardContent>
+                <p className="text-sm text-gray-700 mb-4">
+                  Understand how automation connects with your existing tools
+                </p>
+                <div className="space-y-2 text-xs text-gray-600">
+                  <p>🔗 Calendar integration</p>
+                  <p>📱 SMS/Email automation</p>
+                  <p>📄 Document generation</p>
                 </div>
               </CardContent>
             </Card>
           </div>
 
           {/* CTA Section */}
-          <div className="text-center mt-12">
+          <div className="text-center">
             <p className="text-gray-600 mb-6">
               See something you like? These templates can be customized for your specific needs.
             </p>

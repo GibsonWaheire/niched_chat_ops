@@ -251,6 +251,24 @@
       "additionalInfo": "wee this is amazing ",
       "status": "pending",
       "createdAt": "2025-08-17T13:04:25.631Z"
+    },
+    {
+      "id": "7a91",
+      "businessName": "example",
+      "industry": "health",
+      "contactName": "test me ",
+      "email": "example@yahoo.com",
+      "phone": "1234434943",
+      "businessSize": "6-20 employees",
+      "currentProcesses": "wee ",
+      "automationNeeds": [
+        "Appointment booking & scheduling",
+        "Invoice & payment processing"
+      ],
+      "timeline": "Within 2 weeks",
+      "additionalInfo": "wee",
+      "status": "pending",
+      "createdAt": "2025-08-17T13:15:25.306Z"
     }
   ]
 }
