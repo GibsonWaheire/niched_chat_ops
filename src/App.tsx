@@ -13,6 +13,10 @@ import { AboutPage } from "./components/pages/AboutPage";
 import { BlogPage } from "./components/pages/BlogPage";
 import { HelpCenterPage } from "./components/pages/HelpCenterPage";
 import { DocumentationPage } from "./components/pages/DocumentationPage";
+import { PrivacyPolicyPage } from "./components/pages/PrivacyPolicyPage";
+import { TermsOfServicePage } from "./components/pages/TermsOfServicePage";
+import { CookiePolicyPage } from "./components/pages/CookiePolicyPage";
+import { SecurityPage } from "./components/pages/SecurityPage";
 
 // Landing page component
 const LandingPage = () => (
@@ -45,6 +49,10 @@ const App = () => (
           <Route path="/integrations" element={<PageWrapper><IntegrationsPage /></PageWrapper>} />
           <Route path="/help" element={<PageWrapper><HelpCenterPage /></PageWrapper>} />
           <Route path="/docs" element={<PageWrapper><DocumentationPage /></PageWrapper>} />
+          <Route path="/privacy" element={<PageWrapper><PrivacyPolicyPage /></PageWrapper>} />
+          <Route path="/terms" element={<PageWrapper><TermsOfServicePage /></PageWrapper>} />
+          <Route path="/cookies" element={<PageWrapper><CookiePolicyPage /></PageWrapper>} />
+          <Route path="/security" element={<PageWrapper><SecurityPage /></PageWrapper>} />
         </Routes>
       </main>
       <Footer />
