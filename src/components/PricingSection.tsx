@@ -2,29 +2,31 @@ import { useState } from "react";
 import { Button } from "./ui/button";  
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Check, Zap, Crown, Star, ArrowRight, Shield, Clock, Users, MessageSquare, BarChart3, Zap as ZapIcon } from "lucide-react";
+import { Check, Zap, Crown, Star, ArrowRight, Shield, Clock, Users, MessageSquare, BarChart3 } from "lucide-react";
 
 const plans = [
   {
-    name: "Free",
-    price: { monthly: 0, yearly: 0 },
-    period: "forever",
-    description: "Perfect for trying out automation",
+    name: "Starter",
+    price: { monthly: 9, yearly: 90 },
+    period: "month",
+    description: "Perfect for small businesses getting started",
     icon: Zap,
-    gradient: "from-gray-400 to-gray-600",
+    gradient: "from-green-500 to-emerald-600",
     features: [
-      { text: "20 chat automations/month", included: true, highlight: false },
-      { text: "1 business template", included: true, highlight: false },
-      { text: "Basic email support", included: true, highlight: false },
-      { text: "SMS notifications (5/month)", included: true, highlight: false },
-      { text: "Simple analytics", included: true, highlight: false },
-      { text: "Mobile app access", included: false, highlight: false },
+      { text: "100 chat automations/month", included: true, highlight: false },
+      { text: "3 business templates", included: true, highlight: false },
+      { text: "Email support", included: true, highlight: false },
+      { text: "SMS notifications (50/month)", included: true, highlight: false },
+      { text: "Basic analytics", included: true, highlight: false },
+      { text: "Mobile app access", included: true, highlight: false },
+      { text: "PDF generation (10/month)", included: true, highlight: false },
+      { text: "Team collaboration (2 users)", included: true, highlight: false },
       { text: "Custom integrations", included: false, highlight: false },
       { text: "Priority support", included: false, highlight: false }
     ],
-    cta: "Start Free",
+    cta: "Start 7-day trial",
     popular: false,
-    savings: null
+    savings: "Save 17%"
   },
   {
     name: "Professional",
@@ -75,7 +77,7 @@ const plans = [
 const featureCategories = [
   {
     name: "Core Features",
-    icon: ZapIcon,
+    icon: Zap,
     features: ["Chat automations", "Business templates", "Mobile access"]
   },
   {
@@ -129,7 +131,7 @@ export default function PricingSection() {
             Simple, transparent pricing
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Start free, upgrade when you're ready to scale your automation. 
+            Start with our affordable Starter plan and scale to Enterprise when you're ready. 
             No hidden fees, no surprises.
           </p>
           
@@ -205,11 +207,9 @@ export default function PricingSection() {
                   <div className="space-y-2">
                     <div className="flex items-baseline justify-center gap-2">
                       <span className="text-5xl font-bold text-gray-900">
-                        {currentPrice === 0 ? 'Free' : `$${currentPrice}`}
+                        ${currentPrice}
                       </span>
-                      {currentPrice > 0 && (
-                        <span className="text-xl text-gray-600">/{periodText}</span>
-                      )}
+                      <span className="text-xl text-gray-600">/{periodText}</span>
                     </div>
                     {currentPrice > 0 && isYearly && (
                       <p className="text-sm text-gray-500">

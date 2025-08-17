@@ -8,6 +8,15 @@
       "createdAt": "2024-01-01T00:00:00.000Z",
       "plan": "free",
       "automationsUsed": 15
+    },
+    {
+      "id": "3b6c",
+      "email": "pwriter455@gmail.com",
+      "password": "$2b$10$wm8ff9",
+      "fullName": "Gibson",
+      "createdAt": "2025-08-17T13:28:12.165Z",
+      "plan": "free",
+      "automationsUsed": 0
     }
   ],
   "businesses": [
