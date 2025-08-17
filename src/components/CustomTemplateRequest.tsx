@@ -62,6 +62,7 @@ export default function CustomTemplateRequest() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
   const [error, setError] = useState("");
 
   const handleInputChange = (field: keyof TemplateRequest, value: string) => {
@@ -95,6 +96,200 @@ export default function CustomTemplateRequest() {
   const goBack = () => {
     window.history.back();
   };
+
+  const viewDemoTemplates = () => {
+    setShowTemplates(true);
+  };
+
+  const backToForm = () => {
+    setShowTemplates(false);
+    setIsSubmitted(false);
+    setFormData({
+      businessName: "",
+      industry: "",
+      contactName: "",
+      email: "",
+      phone: "",
+      businessSize: "",
+      currentProcesses: "",
+      automationNeeds: [],
+      timeline: "",
+      additionalInfo: ""
+    });
+  };
+
+  // Show demo templates view
+  if (showTemplates) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <Button 
+              onClick={backToForm} 
+              variant="ghost" 
+              className="mb-6 hover:bg-white/50 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back to Request Form
+            </Button>
+            
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Demo Templates
+            </h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Explore our pre-built automation templates and see how they can transform your business workflow.
+            </p>
+          </div>
+
+          {/* Template Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Salon Template */}
+            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
+              <CardHeader className="bg-gradient-to-br from-pink-500 to-rose-500 text-white rounded-t-lg">
+                <CardTitle className="text-lg">Hair Salon & Spa</CardTitle>
+                <CardDescription className="text-pink-100">
+                  Appointment automation for beauty services
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Appointment booking</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>SMS reminders</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Receipt generation</span>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-600 font-medium">Try this command:</p>
+                  <p className="text-sm text-gray-800 font-mono">"Book Sarah for highlights at 2PM tomorrow"</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Medical Clinic Template */}
+            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
+              <CardHeader className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white rounded-t-lg">
+                <CardTitle className="text-lg">Medical Clinic</CardTitle>
+                <CardDescription className="text-blue-100">
+                  Patient management & HIPAA compliance
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Patient scheduling</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Follow-up automation</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Intake forms</span>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-600 font-medium">Try this command:</p>
+                  <p className="text-sm text-gray-800 font-mono">"Schedule John for checkup Friday"</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Tutor Template */}
+            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
+              <CardHeader className="bg-gradient-to-br from-green-500 to-emerald-500 text-white rounded-t-lg">
+                <CardTitle className="text-lg">Private Tutor</CardTitle>
+                <CardDescription className="text-green-100">
+                  Lesson management & progress tracking
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Lesson scheduling</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Progress tracking</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Invoice automation</span>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-600 font-medium">Try this command:</p>
+                  <p className="text-sm text-gray-800 font-mono">"Schedule Emma for math lesson Tuesday"</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Car Wash Template */}
+            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
+              <CardHeader className="bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-t-lg">
+                <CardTitle className="text-lg">Car Wash Service</CardTitle>
+                <CardDescription className="text-purple-100">
+                  Booking & loyalty program automation
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Booking confirmations</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Loyalty reminders</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Service updates</span>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-600 font-medium">Try this command:</p>
+                  <p className="text-sm text-gray-800 font-mono">"Book sedan wash for tomorrow 10AM"</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* CTA Section */}
+          <div className="text-center mt-12">
+            <p className="text-gray-600 mb-6">
+              See something you like? These templates can be customized for your specific needs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                onClick={backToForm}
+                variant="outline" 
+                className="px-8 py-3"
+              >
+                Request Custom Template
+              </Button>
+              <Button 
+                onClick={goBack}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-3"
+              >
+                Back to Main Page
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return (
@@ -141,7 +336,10 @@ export default function CustomTemplateRequest() {
               <ArrowLeft className="w-5 h-5 mr-2" />
               Back to Templates
             </Button>
-            <Button className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-3">
+            <Button 
+              onClick={viewDemoTemplates}
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-3"
+            >
               View Demo Templates
             </Button>
           </div>

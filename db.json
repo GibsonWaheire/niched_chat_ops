@@ -208,6 +208,49 @@
       "additionalInfo": "",
       "status": "pending",
       "createdAt": "2025-08-17T12:55:28.913Z"
+    },
+    {
+      "id": "70ac",
+      "businessName": "test 1",
+      "industry": "healthcare",
+      "contactName": "gibs",
+      "email": "example.@example.com",
+      "phone": "+ 254726899113",
+      "businessSize": "1-5 employees",
+      "currentProcesses": "yes it workds ",
+      "automationNeeds": [
+        "Invoice & payment processing",
+        "Customer relationship management",
+        "Appointment booking & scheduling",
+        "Document generation",
+        "Integration with existing tools",
+        "Customer communication (SMS/Email)"
+      ],
+      "timeline": "Within 2 weeks",
+      "additionalInfo": "yest his work ",
+      "status": "pending",
+      "createdAt": "2025-08-17T12:58:31.495Z"
+    },
+    {
+      "id": "8884",
+      "businessName": "business test",
+      "industry": "heatthcare",
+      "contactName": "gibnson",
+      "email": "example@examples.com",
+      "phone": "+254 72135549",
+      "businessSize": "1-5 employees",
+      "currentProcesses": "this is great ",
+      "automationNeeds": [
+        "Appointment booking & scheduling",
+        "Customer relationship management",
+        "Invoice & payment processing",
+        "Document generation",
+        "Integration with existing tools"
+      ],
+      "timeline": "Within 2 weeks",
+      "additionalInfo": "wee this is amazing ",
+      "status": "pending",
+      "createdAt": "2025-08-17T13:04:25.631Z"
     }
   ]
 }
