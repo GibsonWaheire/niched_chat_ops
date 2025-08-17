@@ -1,0 +1,125 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "demo@chatops.com",
+      "password": "$2b$10$example_hash",
+      "fullName": "Demo User",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "plan": "free",
+      "automationsUsed": 15
+    }
+  ],
+  "businesses": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "Demo Salon",
+      "type": "salon",
+      "template": "salon",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "automations": [
+        {
+          "id": 1,
+          "name": "Appointment Booking",
+          "type": "appointment",
+          "enabled": true,
+          "triggers": ["chat_command"],
+          "actions": ["calendar", "sms", "email"]
+        },
+        {
+          "id": 2,
+          "name": "Reminder System",
+          "type": "reminder",
+          "enabled": true,
+          "triggers": ["scheduled"],
+          "actions": ["sms", "email"]
+        }
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "id": "salon",
+      "name": "Hair Salon & Spa",
+      "description": "Automate appointments, reminders, and customer follow-ups",
+      "features": ["Appointment booking", "SMS reminders", "Receipt generation"],
+      "examples": [
+        "Book Maria for highlights at 2PM",
+        "Send reminder to tomorrow's clients",
+        "Generate receipt for Sarah, $85"
+      ]
+    },
+    {
+      "id": "clinic",
+      "name": "Medical Clinic",
+      "description": "Streamline patient intake, appointments, and follow-ups",
+      "features": ["Patient scheduling", "Appointment follow-ups", "Intake forms"],
+      "examples": [
+        "Schedule John for checkup Friday",
+        "Send post-visit survey to patients",
+        "Remind patients about lab results"
+      ]
+    },
+    {
+      "id": "tutor",
+      "name": "Private Tutor",
+      "description": "Manage lessons, track progress, and handle invoicing",
+      "features": ["Lesson scheduling", "Progress tracking", "Invoice automation"],
+      "examples": [
+        "Schedule Emma for math lesson Tuesday",
+        "Send progress report to parents",
+        "Generate invoice for this month"
+      ]
+    },
+    {
+      "id": "carwash",
+      "name": "Car Wash Service",
+      "description": "Automate bookings, loyalty programs, and confirmations",
+      "features": ["Booking confirmations", "Loyalty reminders", "Service updates"],
+      "examples": [
+        "Book sedan wash for tomorrow 10AM",
+        "Send loyalty discount to regulars",
+        "Confirm all bookings for today"
+      ]
+    }
+  ],
+  "automations": [
+    {
+      "id": 1,
+      "name": "Appointment Booking",
+      "description": "Automatically book appointments from chat commands",
+      "type": "appointment",
+      "triggers": ["chat_command"],
+      "actions": ["calendar", "sms", "email"],
+      "template": "salon"
+    },
+    {
+      "id": 2,
+      "name": "Reminder System",
+      "description": "Send automated reminders for appointments",
+      "type": "reminder",
+      "triggers": ["scheduled"],
+      "actions": ["sms", "email"],
+      "template": "salon"
+    },
+    {
+      "id": 3,
+      "name": "Invoice Generation",
+      "description": "Create invoices from chat commands",
+      "type": "invoice",
+      "triggers": ["chat_command"],
+      "actions": ["pdf", "email"],
+      "template": "salon"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "session_123",
+      "userId": 1,
+      "token": "jwt_token_here",
+      "expiresAt": "2024-12-31T23:59:59.000Z",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}

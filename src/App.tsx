@@ -1,10 +1,10 @@
 
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
-import { FeatureSection } from "./components/FeatureSection";
+import FeatureSection from "./components/FeatureSection";
 import NicheSection from "./components/NicheSection";
 import PricingSection from "./components/PricingSection";
-import { ChatInterface } from "./components/ChatInterface";
+import SupportSection from "./components/SupportSection";
 
 const App = () => (
   <div className="min-h-screen">
@@ -14,7 +14,7 @@ const App = () => (
       <FeatureSection />
       <NicheSection />
       <PricingSection />
-
+      <SupportSection />
     </main>
   </div>
 );
