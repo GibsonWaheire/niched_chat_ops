@@ -24,16 +24,27 @@
           "name": "Appointment Booking",
           "type": "appointment",
           "enabled": true,
-          "triggers": ["chat_command"],
-          "actions": ["calendar", "sms", "email"]
+          "triggers": [
+            "chat_command"
+          ],
+          "actions": [
+            "calendar",
+            "sms",
+            "email"
+          ]
         },
         {
           "id": 2,
           "name": "Reminder System",
           "type": "reminder",
           "enabled": true,
-          "triggers": ["scheduled"],
-          "actions": ["sms", "email"]
+          "triggers": [
+            "scheduled"
+          ],
+          "actions": [
+            "sms",
+            "email"
+          ]
         }
       ]
     }
@@ -43,7 +54,11 @@
       "id": "salon",
       "name": "Hair Salon & Spa",
       "description": "Automate appointments, reminders, and customer follow-ups",
-      "features": ["Appointment booking", "SMS reminders", "Receipt generation"],
+      "features": [
+        "Appointment booking",
+        "SMS reminders",
+        "Receipt generation"
+      ],
       "examples": [
         "Book Maria for highlights at 2PM",
         "Send reminder to tomorrow's clients",
@@ -54,7 +69,11 @@
       "id": "clinic",
       "name": "Medical Clinic",
       "description": "Streamline patient intake, appointments, and follow-ups",
-      "features": ["Patient scheduling", "Appointment follow-ups", "Intake forms"],
+      "features": [
+        "Patient scheduling",
+        "Appointment follow-ups",
+        "Intake forms"
+      ],
       "examples": [
         "Schedule John for checkup Friday",
         "Send post-visit survey to patients",
@@ -65,7 +84,11 @@
       "id": "tutor",
       "name": "Private Tutor",
       "description": "Manage lessons, track progress, and handle invoicing",
-      "features": ["Lesson scheduling", "Progress tracking", "Invoice automation"],
+      "features": [
+        "Lesson scheduling",
+        "Progress tracking",
+        "Invoice automation"
+      ],
       "examples": [
         "Schedule Emma for math lesson Tuesday",
         "Send progress report to parents",
@@ -76,7 +99,11 @@
       "id": "carwash",
       "name": "Car Wash Service",
       "description": "Automate bookings, loyalty programs, and confirmations",
-      "features": ["Booking confirmations", "Loyalty reminders", "Service updates"],
+      "features": [
+        "Booking confirmations",
+        "Loyalty reminders",
+        "Service updates"
+      ],
       "examples": [
         "Book sedan wash for tomorrow 10AM",
         "Send loyalty discount to regulars",
@@ -90,8 +117,14 @@
       "name": "Appointment Booking",
       "description": "Automatically book appointments from chat commands",
       "type": "appointment",
-      "triggers": ["chat_command"],
-      "actions": ["calendar", "sms", "email"],
+      "triggers": [
+        "chat_command"
+      ],
+      "actions": [
+        "calendar",
+        "sms",
+        "email"
+      ],
       "template": "salon"
     },
     {
@@ -99,8 +132,13 @@
       "name": "Reminder System",
       "description": "Send automated reminders for appointments",
       "type": "reminder",
-      "triggers": ["scheduled"],
-      "actions": ["sms", "email"],
+      "triggers": [
+        "scheduled"
+      ],
+      "actions": [
+        "sms",
+        "email"
+      ],
       "template": "salon"
     },
     {
@@ -108,8 +146,13 @@
       "name": "Invoice Generation",
       "description": "Create invoices from chat commands",
       "type": "invoice",
-      "triggers": ["chat_command"],
-      "actions": ["pdf", "email"],
+      "triggers": [
+        "chat_command"
+      ],
+      "actions": [
+        "pdf",
+        "email"
+      ],
       "template": "salon"
     }
   ],
@@ -120,6 +163,51 @@
       "token": "jwt_token_here",
       "expiresAt": "2024-12-31T23:59:59.000Z",
       "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "customTemplateRequests": [
+    {
+      "id": 1,
+      "businessName": "Sample Business",
+      "industry": "Healthcare",
+      "contactName": "John Doe",
+      "email": "john@sample.com",
+      "phone": "+1 (555) 123-4567",
+      "businessSize": "6-20 employees",
+      "currentProcesses": "Manual appointment scheduling, paper-based patient records, phone reminders",
+      "automationNeeds": [
+        "Appointment booking & scheduling",
+        "Customer communication (SMS/Email)"
+      ],
+      "timeline": "Within 1 month",
+      "additionalInfo": "Need HIPAA compliance and integration with existing EMR system",
+      "status": "pending",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "assignedTo": null,
+      "estimatedCompletion": null
+    },
+    {
+      "id": "a1dd",
+      "businessName": "g.waheir00@gmail.com",
+      "industry": "real estate",
+      "contactName": "Gibson waheire",
+      "email": "g.waheir00@gmail.com",
+      "phone": "+ 254 721465219",
+      "businessSize": "6-20 employees",
+      "currentProcesses": "I need this because its crazy good ",
+      "automationNeeds": [
+        "Invoice & payment processing",
+        "Customer relationship management",
+        "Appointment booking & scheduling",
+        "Customer communication (SMS/Email)",
+        "Reporting & analytics",
+        "Inventory management",
+        "Team collaboration"
+      ],
+      "timeline": "Within 2 weeks",
+      "additionalInfo": "",
+      "status": "pending",
+      "createdAt": "2025-08-17T12:55:28.913Z"
     }
   ]
 }
