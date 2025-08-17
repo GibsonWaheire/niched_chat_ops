@@ -141,8 +141,11 @@ export function Header() {
       <header className="fixed top-0 w-full bg-white/95 backdrop-blur-lg border-b border-gray-200/50 shadow-sm z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="flex items-center gap-3 group cursor-pointer hover:scale-105 transition-transform duration-300"
+          >
+            <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
               <MessageSquare className="w-6 h-6 text-white" />
             </div>
             <div className="flex flex-col">
@@ -151,7 +154,7 @@ export function Header() {
               </span>
               <span className="text-xs text-gray-500 -mt-1">AI Workflow Automation</span>
             </div>
-          </div>
+          </button>
 
           {/* Navigation */}
           <nav className="hidden lg:flex items-center">
