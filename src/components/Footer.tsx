@@ -26,29 +26,29 @@ export function Footer() {
       { name: 'Features', href: '#features' },
       { name: 'Templates', href: '#templates' },
       { name: 'Pricing', href: '#pricing' },
-      { name: 'API', href: '#' },
-      { name: 'Integrations', href: '#' }
+      { name: 'API', href: '#api' },
+      { name: 'Integrations', href: '#integrations' }
     ],
     company: [
-      { name: 'About Us', href: '#' },
-      { name: 'Careers', href: '#' },
-      { name: 'Blog', href: '#' },
-      { name: 'Press', href: '#' },
-      { name: 'Partners', href: '#' }
+      { name: 'About Us', href: '#about' },
+      { name: 'Careers', href: '#careers' },
+      { name: 'Blog', href: '#blog' },
+      { name: 'Press', href: '#press' },
+      { name: 'Partners', href: '#partners' }
     ],
     support: [
-      { name: 'Help Center', href: '#' },
+      { name: 'Help Center', href: '#help-center' },
       { name: 'Live Chat', href: '#support' },
       { name: 'Contact Sales', href: '#support' },
-      { name: 'Status Page', href: '#' },
-      { name: 'Documentation', href: '#' }
+      { name: 'Status Page', href: '#status' },
+      { name: 'Documentation', href: '#docs' }
     ],
     legal: [
-      { name: 'Privacy Policy', href: '#' },
-      { name: 'Terms of Service', href: '#' },
-      { name: 'Cookie Policy', href: '#' },
-      { name: 'GDPR', href: '#' },
-      { name: 'Security', href: '#' }
+      { name: 'Privacy Policy', href: '#privacy' },
+      { name: 'Terms of Service', href: '#terms' },
+      { name: 'Cookie Policy', href: '#cookies' },
+      { name: 'GDPR', href: '#gdpr' },
+      { name: 'Security', href: '#security' }
     ]
   };
 
